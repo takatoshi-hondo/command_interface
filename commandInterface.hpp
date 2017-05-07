@@ -40,6 +40,7 @@ private:
 protected:
   map<string, Command<T> *> *cmdlist;
 public:
+  const static int COMMAND_CONTROL_EXIT=1;
   Command( string name ){
     cmdname = name;
   }
@@ -102,6 +103,7 @@ public:
   string getLine( void );
   void   returnErr( string );
   bool   isEOF( void );
+  void   close( void );
 };
 
 //Default commands
@@ -111,7 +113,8 @@ public:
   Quit() : Command<T>( "quit" ){
   }
   string commandFunc( T *ptr , list<string> args ){
-    exit(0);
+    throw Command<T>::COMMAND_CONTROL_EXIT;
+    return "";
   }
 };
 
@@ -164,8 +167,7 @@ private:
   
   void addDefaultCommands( void ){
     addCommand( &q );
-    addCommand( &sp );
-    addCommand( &ef );
+    //addCommand( &sp );
   }
 public:
   CommandManager(){
@@ -211,6 +213,7 @@ public:
   }
   void resetReciever( CommandReciever *r ){
     cr = r;
+    cr->setLineEnd( line_end );
   }
   CommandSender *getCurrentSender( void ){
     return cs;

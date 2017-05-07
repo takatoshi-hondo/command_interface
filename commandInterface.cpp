@@ -52,6 +52,7 @@ string FileReciever::getLine( void ){
     iseof = true;
     line = "";
   }
+  cerr << "[File reciever line " << lc << "] " << line << endl;
   return line;
 }
 
@@ -62,4 +63,8 @@ void FileReciever::returnErr( string ret ){
 
 bool FileReciever::isEOF( void ){
   return iseof;
+}
+
+void FileReciever::close( void ){
+  ifs.close();
 }
